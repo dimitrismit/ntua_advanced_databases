@@ -4,7 +4,6 @@ from pyspark.sql.types import DateType, IntegerType, DoubleType
 from pyspark.sql.functions import col, to_date
 
 
-#code taken from https://medium.com/towards-data-engineering/pyspark-write-a-data-frame-with-the-specific-file-name-994b91d7f77d
 #sc = spark.sparkContext
 def store_file (file_format: str, hdfs_URI : str, folder : str, file_name : str, df, sc):
     
