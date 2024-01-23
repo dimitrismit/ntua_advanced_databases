@@ -17,13 +17,13 @@ This is a project for 'Advanced Topics in Database Systems', National Technical 
 
 ## Technologies 
 The project is created with:
-* OpenJDK 11.0.21
-* Apache Hadoop 3.3.6
-* Apache Spark 3.3.1
-* Python 3.10.12:
+* OpenJDK 11.0.21 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+* Apache Hadoop 3.3.6 ![Apache Hadoop](https://img.shields.io/badge/Apache%20Hadoop-66CCFF?style=for-the-badge&logo=apachehadoop&logoColor=black)
+* Apache Spark 3.3.1 ![Apache Spark](https://img.shields.io/badge/Apache%20Spark-FDEE21?style=flat-square&logo=apachespark&logoColor=black)
+* Python 3.10.12: ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
   * py4j==0.10.9.7
   * geopy==2.4.1
-  * pandas==2.2.0
+  * pandas==2.2.0 ![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
   * pyspark==3.5.0
 
 > [!NOTE]  
