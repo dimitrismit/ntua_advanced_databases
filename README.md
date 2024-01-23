@@ -9,8 +9,8 @@
 
 ## General Information
 **Team Members:** <br> 
-Dimitris Mitropoulos <br>
-Konstantinos Sideris
+Dimitris Mitropoulos, el18608 <br>
+Dimitris Houpas, el18116
 
 **Subject:** <br>
 This is a project for 'Advanced Topics in Database Systems', National Technical University of Athens for the winter semester 2023-2024.
