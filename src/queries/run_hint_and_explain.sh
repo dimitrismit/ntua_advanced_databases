@@ -1,9 +1,9 @@
-#declare -a mode=("extended" "simple" "formatted")
-declare -a mode=("formatted")
+declare -a mode=("extended" "simple" "formatted")
 declare -a query=("query3_df" "query4_1" "query4_2")
 declare -a hint=("BROADCAST" "MERGE" "SHUFFLE_HASH" "SHUFFLE_REPLICATE_NL")
 
-## now loop through the above array
+#The loops create a file for the results, if it does not exist already
+#and run using all the different join hints and explain combinations
 for modes in "${mode[@]}"
 do
     for queries in "${query[@]}"
