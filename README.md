@@ -70,7 +70,7 @@ To install and configure the cluster in okeanos, the instructions [here](https:/
 >    </configuration>
 >   ```
 >   This was done so that downloading and deleting files could be performed using the Web UI.
-> * In the /spark/conf/log4j2.properties:
+> * In the /spark/conf/ file there was a log4j2.properties.template file. This files was copied to another file, named log4j2.properties and the following lines were changed:
 >  ```
 >     rootLogger.level = warn
 >     logger.replexprTyper.level = warn
