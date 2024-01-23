@@ -1,5 +1,6 @@
 hadoop fs -rm -r /results/*
 
+#Do 5 iterations for more accurate results
 for i in {1..5}
 do
    echo "RUNNING ITERATION $i"
