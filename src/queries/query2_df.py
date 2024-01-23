@@ -52,7 +52,7 @@ crime_df = crime_df.withColumn("day_part",
 
 # Group by day_part and count the crimes
 result = crime_df.groupBy("day_part").agg(count("*").alias("crime_count"))
-result.select('day_part', 'crime_count').orderBy('crime_count', ascending=False)
+result = result.select('day_part', 'crime_count').orderBy('crime_count', ascending=False)
 
 query_time = time.time() - (timer+create_spark_time+read_data_time)
 timers_list[0][2] = (query_time)
