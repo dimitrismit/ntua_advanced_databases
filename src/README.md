@@ -51,4 +51,8 @@ In the assignment, there is a question that requires to use of join operations u
 > For queries 3 and 4, one can use None for the second and the third parameter, when it is desired to execute the program
 > without any hints for the join operation. In that case, the program will calculate the result and save it to a file in HDFS.
 > When these parameters are not 'None' (the hint and the mode to be used), it is advised to redirect the
-> output to a file, as it is done in the "run_hint_and_analyze.sh". 
+> output to a file, as it is done in the "run_hint_and_analyze.sh".
+
+> [!NOTE]
+> The output file of the query results uses "|" as separator, while timers uses "," as separator. If you want to change the separator for the results file, you can use change_separator.py inside
+> the helper-code folder, which takes as parameter the path to the file you want to edit and changes the file.
