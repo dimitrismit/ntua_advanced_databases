@@ -1,0 +1,385 @@
+query3_df.py
+formatted
+----------------------------------------------------------------------------------------------------
+Spark session started for query3_df_BROADCAST !
+----------------------------------------------------------------------------------------------------
+== Physical Plan ==
+AdaptiveSparkPlan (8)
++- BroadcastHashJoin LeftSemi BuildRight (7)
+   :- Filter (2)
+   :  +- Scan csv  (1)
+   +- BroadcastExchange (6)
+      +- Project (5)
+         +- Filter (4)
+            +- Scan csv  (3)
+
+
+(1) Scan csv 
+Output [3]: [Zip Code#90, Community#91, Estimated Median Income#92]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/income/LA_income_2015.csv]
+PushedFilters: [IsNotNull(Zip Code)]
+ReadSchema: struct<Zip Code:int,Community:string,Estimated Median Income:string>
+
+(2) Filter
+Input [3]: [Zip Code#90, Community#91, Estimated Median Income#92]
+Condition : isnotnull(Zip Code#90)
+
+(3) Scan csv 
+Output [1]: [ZIPcode#115]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/revgecoding.csv]
+ReadSchema: struct<ZIPcode:string>
+
+(4) Filter
+Input [1]: [ZIPcode#115]
+Condition : isnotnull(regexp_extract(ZIPcode#115, ^(\d+), 1))
+
+(5) Project
+Output [1]: [regexp_extract(ZIPcode#115, ^(\d+), 1) AS Zip Code#154]
+Input [1]: [ZIPcode#115]
+
+(6) BroadcastExchange
+Input [1]: [Zip Code#154]
+Arguments: HashedRelationBroadcastMode(List(cast(cast(input[0, string, true] as int) as bigint)),false), [plan_id=78]
+
+(7) BroadcastHashJoin
+Left keys [1]: [Zip Code#90]
+Right keys [1]: [cast(Zip Code#154 as int)]
+Join type: LeftSemi
+Join condition: None
+
+(8) AdaptiveSparkPlan
+Output [3]: [Zip Code#90, Community#91, Estimated Median Income#92]
+Arguments: isFinalPlan=false
+
+
+== Physical Plan ==
+AdaptiveSparkPlan (24)
++- Project (23)
+   +- BroadcastHashJoin LeftSemi BuildRight (22)
+      :- Project (3)
+      :  +- Filter (2)
+      :     +- Scan csv  (1)
+      +- BroadcastExchange (21)
+         +- Union (20)
+            :- TakeOrderedAndProject (11)
+            :  +- BroadcastHashJoin LeftSemi BuildRight (10)
+            :     :- Filter (5)
+            :     :  +- Scan csv  (4)
+            :     +- BroadcastExchange (9)
+            :        +- Project (8)
+            :           +- Filter (7)
+            :              +- Scan csv  (6)
+            +- TakeOrderedAndProject (19)
+               +- BroadcastHashJoin LeftSemi BuildRight (18)
+                  :- Filter (13)
+                  :  +- Scan csv  (12)
+                  +- BroadcastExchange (17)
+                     +- Project (16)
+                        +- Filter (15)
+                           +- Scan csv  (14)
+
+
+(1) Scan csv 
+Output [3]: [LAT#113, LON#114, ZIPcode#115]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/revgecoding.csv]
+ReadSchema: struct<LAT:double,LON:double,ZIPcode:string>
+
+(2) Filter
+Input [3]: [LAT#113, LON#114, ZIPcode#115]
+Condition : isnotnull(regexp_extract(ZIPcode#115, ^(\d+), 1))
+
+(3) Project
+Output [3]: [LAT#113, LON#114, regexp_extract(ZIPcode#115, ^(\d+), 1) AS Zip Code#154]
+Input [3]: [LAT#113, LON#114, ZIPcode#115]
+
+(4) Scan csv 
+Output [2]: [Zip Code#90, Estimated Median Income#92]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/income/LA_income_2015.csv]
+PushedFilters: [IsNotNull(Zip Code)]
+ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
+
+(5) Filter
+Input [2]: [Zip Code#90, Estimated Median Income#92]
+Condition : isnotnull(Zip Code#90)
+
+(6) Scan csv 
+Output [1]: [ZIPcode#175]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/revgecoding.csv]
+ReadSchema: struct<ZIPcode:string>
+
+(7) Filter
+Input [1]: [ZIPcode#175]
+Condition : isnotnull(regexp_extract(ZIPcode#175, ^(\d+), 1))
+
+(8) Project
+Output [1]: [regexp_extract(ZIPcode#175, ^(\d+), 1) AS Zip Code#154]
+Input [1]: [ZIPcode#175]
+
+(9) BroadcastExchange
+Input [1]: [Zip Code#154]
+Arguments: HashedRelationBroadcastMode(List(cast(cast(input[0, string, true] as int) as bigint)),false), [plan_id=155]
+
+(10) BroadcastHashJoin
+Left keys [1]: [Zip Code#90]
+Right keys [1]: [cast(Zip Code#154 as int)]
+Join type: LeftSemi
+Join condition: None
+
+(11) TakeOrderedAndProject
+Input [2]: [Zip Code#90, Estimated Median Income#92]
+Arguments: 3, [Estimated Median Income#92 DESC NULLS LAST], [Zip Code#90]
+
+(12) Scan csv 
+Output [2]: [Zip Code#164, Estimated Median Income#166]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/income/LA_income_2015.csv]
+PushedFilters: [IsNotNull(Zip Code)]
+ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
+
+(13) Filter
+Input [2]: [Zip Code#164, Estimated Median Income#166]
+Condition : isnotnull(Zip Code#164)
+
+(14) Scan csv 
+Output [1]: [ZIPcode#169]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/revgecoding.csv]
+ReadSchema: struct<ZIPcode:string>
+
+(15) Filter
+Input [1]: [ZIPcode#169]
+Condition : isnotnull(regexp_extract(ZIPcode#169, ^(\d+), 1))
+
+(16) Project
+Output [1]: [regexp_extract(ZIPcode#169, ^(\d+), 1) AS Zip Code#154]
+Input [1]: [ZIPcode#169]
+
+(17) BroadcastExchange
+Input [1]: [Zip Code#154]
+Arguments: HashedRelationBroadcastMode(List(cast(cast(input[0, string, true] as int) as bigint)),false), [plan_id=158]
+
+(18) BroadcastHashJoin
+Left keys [1]: [Zip Code#164]
+Right keys [1]: [cast(Zip Code#154 as int)]
+Join type: LeftSemi
+Join condition: None
+
+(19) TakeOrderedAndProject
+Input [2]: [Zip Code#164, Estimated Median Income#166]
+Arguments: 3, [Estimated Median Income#166 ASC NULLS FIRST], [Zip Code#164]
+
+(20) Union
+
+(21) BroadcastExchange
+Input [1]: [Zip Code#90]
+Arguments: HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=163]
+
+(22) BroadcastHashJoin
+Left keys [1]: [cast(Zip Code#154 as int)]
+Right keys [1]: [Zip Code#90]
+Join type: LeftSemi
+Join condition: None
+
+(23) Project
+Output [3]: [Zip Code#154, LAT#113, LON#114]
+Input [3]: [LAT#113, LON#114, Zip Code#154]
+
+(24) AdaptiveSparkPlan
+Output [3]: [Zip Code#154, LAT#113, LON#114]
+Arguments: isFinalPlan=false
+
+
+== Physical Plan ==
+AdaptiveSparkPlan (30)
++- Project (29)
+   +- BroadcastHashJoin LeftSemi BuildRight (28)
+      :- Project (3)
+      :  +- Filter (2)
+      :     +- Scan csv  (1)
+      +- BroadcastExchange (27)
+         +- Project (26)
+            +- BroadcastHashJoin LeftSemi BuildRight (25)
+               :- Project (6)
+               :  +- Filter (5)
+               :     +- Scan csv  (4)
+               +- BroadcastExchange (24)
+                  +- Union (23)
+                     :- TakeOrderedAndProject (14)
+                     :  +- BroadcastHashJoin LeftSemi BuildRight (13)
+                     :     :- Filter (8)
+                     :     :  +- Scan csv  (7)
+                     :     +- BroadcastExchange (12)
+                     :        +- Project (11)
+                     :           +- Filter (10)
+                     :              +- Scan csv  (9)
+                     +- TakeOrderedAndProject (22)
+                        +- BroadcastHashJoin LeftSemi BuildRight (21)
+                           :- Filter (16)
+                           :  +- Scan csv  (15)
+                           +- BroadcastExchange (20)
+                              +- Project (19)
+                                 +- Filter (18)
+                                    +- Scan csv  (17)
+
+
+(1) Scan csv 
+Output [28]: [DR_NO#17, Date Rptd#18, DATE OCC#19, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, LOCATION#41, Cross Street#42, LAT#43, LON#44]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/Crime_Data_from_2010_to_Present.csv]
+PushedFilters: [IsNotNull(Vict Descent), IsNotNull(LAT), IsNotNull(LON)]
+ReadSchema: struct<DR_NO:int,Date Rptd:string,DATE OCC:string,TIME OCC:int,AREA:int,AREA NAME:string,Rpt Dist No:int,Part 1-2:int,Crm Cd:int,Crm Cd Desc:string,Mocodes:string,Vict Age:int,Vict Sex:string,Vict Descent:string,Premis Cd:int,Premis Desc:string,Weapon Used Cd:int,Weapon Desc:string,Status:string,Status Desc:string,Crm Cd 1:int,Crm Cd 2:int,Crm Cd 3:int,Crm Cd 4:int,LOCATION:string,Cross Street:string,LAT:double,LON:double>
+
+(2) Filter
+Input [28]: [DR_NO#17, Date Rptd#18, DATE OCC#19, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, LOCATION#41, Cross Street#42, LAT#43, LON#44]
+Condition : (((isnotnull(Vict Descent#30) AND (year(cast(gettimestamp(DATE OCC#19, MM/dd/yyyy hh:mm:ss a, TimestampType, Some(Europe/Athens), false) as date)) = 2015)) AND isnotnull(LAT#43)) AND isnotnull(LON#44))
+
+(3) Project
+Output [28]: [DR_NO#17, Date Rptd#18, gettimestamp(DATE OCC#19, MM/dd/yyyy hh:mm:ss a, TimestampType, Some(Europe/Athens), false) AS DATE OCC#120, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, LOCATION#41, Cross Street#42, LAT#43, LON#44]
+Input [28]: [DR_NO#17, Date Rptd#18, DATE OCC#19, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, LOCATION#41, Cross Street#42, LAT#43, LON#44]
+
+(4) Scan csv 
+Output [3]: [LAT#113, LON#114, ZIPcode#115]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/revgecoding.csv]
+PushedFilters: [IsNotNull(LAT), IsNotNull(LON)]
+ReadSchema: struct<LAT:double,LON:double,ZIPcode:string>
+
+(5) Filter
+Input [3]: [LAT#113, LON#114, ZIPcode#115]
+Condition : ((isnotnull(regexp_extract(ZIPcode#115, ^(\d+), 1)) AND isnotnull(LAT#113)) AND isnotnull(LON#114))
+
+(6) Project
+Output [3]: [LAT#113, LON#114, regexp_extract(ZIPcode#115, ^(\d+), 1) AS Zip Code#154]
+Input [3]: [LAT#113, LON#114, ZIPcode#115]
+
+(7) Scan csv 
+Output [2]: [Zip Code#90, Estimated Median Income#92]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/income/LA_income_2015.csv]
+PushedFilters: [IsNotNull(Zip Code)]
+ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
+
+(8) Filter
+Input [2]: [Zip Code#90, Estimated Median Income#92]
+Condition : isnotnull(Zip Code#90)
+
+(9) Scan csv 
+Output [1]: [ZIPcode#175]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/revgecoding.csv]
+ReadSchema: struct<ZIPcode:string>
+
+(10) Filter
+Input [1]: [ZIPcode#175]
+Condition : isnotnull(regexp_extract(ZIPcode#175, ^(\d+), 1))
+
+(11) Project
+Output [1]: [regexp_extract(ZIPcode#175, ^(\d+), 1) AS Zip Code#154]
+Input [1]: [ZIPcode#175]
+
+(12) BroadcastExchange
+Input [1]: [Zip Code#154]
+Arguments: HashedRelationBroadcastMode(List(cast(cast(input[0, string, true] as int) as bigint)),false), [plan_id=259]
+
+(13) BroadcastHashJoin
+Left keys [1]: [Zip Code#90]
+Right keys [1]: [cast(Zip Code#154 as int)]
+Join type: LeftSemi
+Join condition: None
+
+(14) TakeOrderedAndProject
+Input [2]: [Zip Code#90, Estimated Median Income#92]
+Arguments: 3, [Estimated Median Income#92 DESC NULLS LAST], [Zip Code#90]
+
+(15) Scan csv 
+Output [2]: [Zip Code#164, Estimated Median Income#166]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/income/LA_income_2015.csv]
+PushedFilters: [IsNotNull(Zip Code)]
+ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
+
+(16) Filter
+Input [2]: [Zip Code#164, Estimated Median Income#166]
+Condition : isnotnull(Zip Code#164)
+
+(17) Scan csv 
+Output [1]: [ZIPcode#169]
+Batched: false
+Location: InMemoryFileIndex [hdfs://okeanos-master:54310/project_data/revgecoding.csv]
+ReadSchema: struct<ZIPcode:string>
+
+(18) Filter
+Input [1]: [ZIPcode#169]
+Condition : isnotnull(regexp_extract(ZIPcode#169, ^(\d+), 1))
+
+(19) Project
+Output [1]: [regexp_extract(ZIPcode#169, ^(\d+), 1) AS Zip Code#154]
+Input [1]: [ZIPcode#169]
+
+(20) BroadcastExchange
+Input [1]: [Zip Code#154]
+Arguments: HashedRelationBroadcastMode(List(cast(cast(input[0, string, true] as int) as bigint)),false), [plan_id=262]
+
+(21) BroadcastHashJoin
+Left keys [1]: [Zip Code#164]
+Right keys [1]: [cast(Zip Code#154 as int)]
+Join type: LeftSemi
+Join condition: None
+
+(22) TakeOrderedAndProject
+Input [2]: [Zip Code#164, Estimated Median Income#166]
+Arguments: 3, [Estimated Median Income#166 ASC NULLS FIRST], [Zip Code#164]
+
+(23) Union
+
+(24) BroadcastExchange
+Input [1]: [Zip Code#90]
+Arguments: HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=267]
+
+(25) BroadcastHashJoin
+Left keys [1]: [cast(Zip Code#154 as int)]
+Right keys [1]: [Zip Code#90]
+Join type: LeftSemi
+Join condition: None
+
+(26) Project
+Output [2]: [LAT#113, LON#114]
+Input [3]: [LAT#113, LON#114, Zip Code#154]
+
+(27) BroadcastExchange
+Input [2]: [LAT#113, LON#114]
+Arguments: HashedRelationBroadcastMode(List(knownfloatingpointnormalized(normalizenanandzero(input[0, double, true])), knownfloatingpointnormalized(normalizenanandzero(input[1, double, true]))),false), [plan_id=271]
+
+(28) BroadcastHashJoin
+Left keys [2]: [knownfloatingpointnormalized(normalizenanandzero(LAT#43)), knownfloatingpointnormalized(normalizenanandzero(LON#44))]
+Right keys [2]: [knownfloatingpointnormalized(normalizenanandzero(LAT#113)), knownfloatingpointnormalized(normalizenanandzero(LON#114))]
+Join type: LeftSemi
+Join condition: None
+
+(29) Project
+Output [28]: [LAT#43, LON#44, DR_NO#17, Date Rptd#18, DATE OCC#120, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, LOCATION#41, Cross Street#42]
+Input [28]: [DR_NO#17, Date Rptd#18, DATE OCC#120, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, LOCATION#41, Cross Street#42, LAT#43, LON#44]
+
+(30) AdaptiveSparkPlan
+Output [28]: [LAT#43, LON#44, DR_NO#17, Date Rptd#18, DATE OCC#120, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, LOCATION#41, Cross Street#42]
+Arguments: isFinalPlan=false
+
+
++----------------------+------------+
+|Vict Descent          |Victim Count|
++----------------------+------------+
+|White                 |2219        |
+|Other                 |543         |
+|Hispanic/Latin/Mexican|418         |
+|Unknown               |281         |
+|Black                 |250         |
+|Other Asian           |125         |
+|Filipino              |3           |
+|Japanese              |1           |
++----------------------+------------+
+
