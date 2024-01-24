@@ -55,4 +55,5 @@ In the assignment, there is a question that requires to use of join operations u
 
 > [!NOTE]
 > The output file of the query results uses "|" as separator, while timers uses "," as separator. If you want to change the separator for the results file, you can use change_separator.py inside
-> the helper-code folder, which takes as parameter the path to the file you want to edit and changes the file.
+> the helper-code folder. For this to work you need to create a different folder, where you paste all four folders from the results folder.
+> Therefore, when the change_separator.py finishes, there will be the original folder with the results (where some csv files will have | delimiter) and another folder, where "," will be the separator for all csv files.
