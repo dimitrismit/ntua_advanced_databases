@@ -1,0 +1,191 @@
+query4_2.py
+----------------------------------------------------------------------------------------------------
+Spark session started for query4_2_BROADCAST !
+----------------------------------------------------------------------------------------------------
+== Parsed Logical Plan ==
+Join Cross
+:- Project [DR_NO#17, Date Rptd#18, DATE OCC#74, TIME OCC#20, AREA#21, upper(AREA NAME#103) AS AREA NAME#132, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+:  +- Project [DR_NO#17, Date Rptd#18, DATE OCC#74, TIME OCC#20, AREA#21, CASE WHEN (AREA NAME#22 = N Hollywood) THEN NORTH HOLLYWOOD WHEN (AREA NAME#22 = West LA) THEN WEST LOS ANGELES ELSE AREA NAME#22 END AS AREA NAME#103, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+:     +- Filter StartsWith(cast(Weapon Used Cd#33 as string), 1)
+:        +- Project [DR_NO#17, Date Rptd#18, to_timestamp(DATE OCC#19, Some(MM/dd/yyyy hh:mm:ss a), TimestampType, Some(Europe/Athens), false) AS DATE OCC#74, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+:           +- Filter (NOT (LAT#43 = cast(0 as double)) AND NOT (LON#44 = cast(0 as double)))
+:              +- Relation [DR_NO#17,Date Rptd#18,DATE OCC#19,TIME OCC#20,AREA#21,AREA NAME#22,Rpt Dist No#23,Part 1-2#24,Crm Cd#25,Crm Cd Desc#26,Mocodes#27,Vict Age#28,Vict Sex#29,Vict Descent#30,Premis Cd#31,Premis Desc#32,Weapon Used Cd#33,Weapon Desc#34,Status#35,Status Desc#36,Crm Cd 1#37,Crm Cd 2#38,Crm Cd 3#39,Crm Cd 4#40,... 4 more fields] csv
++- ResolvedHint (strategy=broadcast)
+   +- Project [X#178, Y#179, DIVISION#181]
+      +- Relation [X#178,Y#179,FID#180,DIVISION#181,LOCATION#182,PREC#183] csv
+
+== Analyzed Logical Plan ==
+DR_NO: int, Date Rptd: string, DATE OCC: timestamp, TIME OCC: int, AREA: int, AREA NAME: string, Rpt Dist No: int, Part 1-2: int, Crm Cd: int, Crm Cd Desc: string, Mocodes: string, Vict Age: int, Vict Sex: string, Vict Descent: string, Premis Cd: int, Premis Desc: string, Weapon Used Cd: int, Weapon Desc: string, Status: string, Status Desc: string, Crm Cd 1: int, Crm Cd 2: int, Crm Cd 3: int, Crm Cd 4: int, ... 7 more fields
+Join Cross
+:- Project [DR_NO#17, Date Rptd#18, DATE OCC#74, TIME OCC#20, AREA#21, upper(AREA NAME#103) AS AREA NAME#132, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+:  +- Project [DR_NO#17, Date Rptd#18, DATE OCC#74, TIME OCC#20, AREA#21, CASE WHEN (AREA NAME#22 = N Hollywood) THEN NORTH HOLLYWOOD WHEN (AREA NAME#22 = West LA) THEN WEST LOS ANGELES ELSE AREA NAME#22 END AS AREA NAME#103, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+:     +- Filter StartsWith(cast(Weapon Used Cd#33 as string), 1)
+:        +- Project [DR_NO#17, Date Rptd#18, to_timestamp(DATE OCC#19, Some(MM/dd/yyyy hh:mm:ss a), TimestampType, Some(Europe/Athens), false) AS DATE OCC#74, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+:           +- Filter (NOT (LAT#43 = cast(0 as double)) AND NOT (LON#44 = cast(0 as double)))
+:              +- Relation [DR_NO#17,Date Rptd#18,DATE OCC#19,TIME OCC#20,AREA#21,AREA NAME#22,Rpt Dist No#23,Part 1-2#24,Crm Cd#25,Crm Cd Desc#26,Mocodes#27,Vict Age#28,Vict Sex#29,Vict Descent#30,Premis Cd#31,Premis Desc#32,Weapon Used Cd#33,Weapon Desc#34,Status#35,Status Desc#36,Crm Cd 1#37,Crm Cd 2#38,Crm Cd 3#39,Crm Cd 4#40,... 4 more fields] csv
++- ResolvedHint (strategy=broadcast)
+   +- Project [X#178, Y#179, DIVISION#181]
+      +- Relation [X#178,Y#179,FID#180,DIVISION#181,LOCATION#182,PREC#183] csv
+
+== Optimized Logical Plan ==
+Join Cross, rightHint=(strategy=broadcast)
+:- Project [DR_NO#17, Date Rptd#18, gettimestamp(DATE OCC#19, MM/dd/yyyy hh:mm:ss a, TimestampType, Some(Europe/Athens), false) AS DATE OCC#74, TIME OCC#20, AREA#21, CASE WHEN (AREA NAME#22 = N Hollywood) THEN NORTH HOLLYWOOD WHEN (AREA NAME#22 = West LA) THEN WEST LOS ANGELES ELSE upper(AREA NAME#22) END AS AREA NAME#132, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+:  +- Filter (((isnotnull(LAT#43) AND isnotnull(LON#44)) AND isnotnull(Weapon Used Cd#33)) AND ((NOT (LAT#43 = 0.0) AND NOT (LON#44 = 0.0)) AND StartsWith(cast(Weapon Used Cd#33 as string), 1)))
+:     +- Relation [DR_NO#17,Date Rptd#18,DATE OCC#19,TIME OCC#20,AREA#21,AREA NAME#22,Rpt Dist No#23,Part 1-2#24,Crm Cd#25,Crm Cd Desc#26,Mocodes#27,Vict Age#28,Vict Sex#29,Vict Descent#30,Premis Cd#31,Premis Desc#32,Weapon Used Cd#33,Weapon Desc#34,Status#35,Status Desc#36,Crm Cd 1#37,Crm Cd 2#38,Crm Cd 3#39,Crm Cd 4#40,... 4 more fields] csv
++- Project [X#178, Y#179, DIVISION#181]
+   +- Relation [X#178,Y#179,FID#180,DIVISION#181,LOCATION#182,PREC#183] csv
+
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- BroadcastNestedLoopJoin BuildRight, Cross
+   :- Project [DR_NO#17, Date Rptd#18, gettimestamp(DATE OCC#19, MM/dd/yyyy hh:mm:ss a, TimestampType, Some(Europe/Athens), false) AS DATE OCC#74, TIME OCC#20, AREA#21, CASE WHEN (AREA NAME#22 = N Hollywood) THEN NORTH HOLLYWOOD WHEN (AREA NAME#22 = West LA) THEN WEST LOS ANGELES ELSE upper(AREA NAME#22) END AS AREA NAME#132, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+   :  +- Filter (((((isnotnull(LAT#43) AND isnotnull(LON#44)) AND isnotnull(Weapon Used Cd#33)) AND NOT (LAT#43 = 0.0)) AND NOT (LON#44 = 0.0)) AND StartsWith(cast(Weapon Used Cd#33 as string), 1))
+   :     +- FileScan csv [DR_NO#17,Date Rptd#18,DATE OCC#19,TIME OCC#20,AREA#21,AREA NAME#22,Rpt Dist No#23,Part 1-2#24,Crm Cd#25,Crm Cd Desc#26,Mocodes#27,Vict Age#28,Vict Sex#29,Vict Descent#30,Premis Cd#31,Premis Desc#32,Weapon Used Cd#33,Weapon Desc#34,Status#35,Status Desc#36,Crm Cd 1#37,Crm Cd 2#38,Crm Cd 3#39,Crm Cd 4#40,... 4 more fields] Batched: false, DataFilters: [isnotnull(LAT#43), isnotnull(LON#44), isnotnull(Weapon Used Cd#33), NOT (LAT#43 = 0.0), NOT (LON..., Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/Crime_Data_from_2010_to_Prese..., PartitionFilters: [], PushedFilters: [IsNotNull(LAT), IsNotNull(LON), IsNotNull(Weapon Used Cd), Not(EqualTo(LAT,0.0)), Not(EqualTo(LO..., ReadSchema: struct<DR_NO:int,Date Rptd:string,DATE OCC:string,TIME OCC:int,AREA:int,AREA NAME:string,Rpt Dist...
+   +- BroadcastExchange IdentityBroadcastMode, [plan_id=54]
+      +- FileScan csv [X#178,Y#179,DIVISION#181] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/LAPD_Police_Stations.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<X:double,Y:double,DIVISION:string>
+
+== Parsed Logical Plan ==
+'Join UsingJoin(LeftOuter, [DR_NO])
+:- Project [DR_NO#17, Date Rptd#18, DATE OCC#74, TIME OCC#20, AREA#21, upper(AREA NAME#103) AS AREA NAME#132, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+:  +- Project [DR_NO#17, Date Rptd#18, DATE OCC#74, TIME OCC#20, AREA#21, CASE WHEN (AREA NAME#22 = N Hollywood) THEN NORTH HOLLYWOOD WHEN (AREA NAME#22 = West LA) THEN WEST LOS ANGELES ELSE AREA NAME#22 END AS AREA NAME#103, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+:     +- Filter StartsWith(cast(Weapon Used Cd#33 as string), 1)
+:        +- Project [DR_NO#17, Date Rptd#18, to_timestamp(DATE OCC#19, Some(MM/dd/yyyy hh:mm:ss a), TimestampType, Some(Europe/Athens), false) AS DATE OCC#74, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+:           +- Filter (NOT (LAT#43 = cast(0 as double)) AND NOT (LON#44 = cast(0 as double)))
+:              +- Relation [DR_NO#17,Date Rptd#18,DATE OCC#19,TIME OCC#20,AREA#21,AREA NAME#22,Rpt Dist No#23,Part 1-2#24,Crm Cd#25,Crm Cd Desc#26,Mocodes#27,Vict Age#28,Vict Sex#29,Vict Descent#30,Premis Cd#31,Premis Desc#32,Weapon Used Cd#33,Weapon Desc#34,Status#35,Status Desc#36,Crm Cd 1#37,Crm Cd 2#38,Crm Cd 3#39,Crm Cd 4#40,... 4 more fields] csv
++- ResolvedHint (strategy=broadcast)
+   +- Project [DR_NO#297, DIVISION#181, distance#226]
+      +- Filter (rank#260 = 1)
+         +- Project [DR_NO#297, Date Rptd#298, DATE OCC#74, TIME OCC#300, AREA#301, AREA NAME#132, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 9 more fields]
+            +- Project [DR_NO#297, Date Rptd#298, DATE OCC#74, TIME OCC#300, AREA#301, AREA NAME#132, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 10 more fields]
+               +- Window [row_number() windowspecdefinition(DR_NO#297, distance#226 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rank#260], [DR_NO#297], [distance#226 ASC NULLS FIRST]
+                  +- Project [DR_NO#297, Date Rptd#298, DATE OCC#74, TIME OCC#300, AREA#301, AREA NAME#132, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 8 more fields]
+                     +- Project [DR_NO#297, Date Rptd#298, DATE OCC#74, TIME OCC#300, AREA#301, AREA NAME#132, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 8 more fields]
+                        +- Join Cross
+                           :- Project [DR_NO#297, Date Rptd#298, DATE OCC#74, TIME OCC#300, AREA#301, upper(AREA NAME#103) AS AREA NAME#132, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 4 more fields]
+                           :  +- Project [DR_NO#297, Date Rptd#298, DATE OCC#74, TIME OCC#300, AREA#301, CASE WHEN (AREA NAME#302 = N Hollywood) THEN NORTH HOLLYWOOD WHEN (AREA NAME#302 = West LA) THEN WEST LOS ANGELES ELSE AREA NAME#302 END AS AREA NAME#103, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 4 more fields]
+                           :     +- Filter StartsWith(cast(Weapon Used Cd#313 as string), 1)
+                           :        +- Project [DR_NO#297, Date Rptd#298, to_timestamp(DATE OCC#299, Some(MM/dd/yyyy hh:mm:ss a), TimestampType, Some(Europe/Athens), false) AS DATE OCC#74, TIME OCC#300, AREA#301, AREA NAME#302, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 4 more fields]
+                           :           +- Filter (NOT (LAT#323 = cast(0 as double)) AND NOT (LON#324 = cast(0 as double)))
+                           :              +- Relation [DR_NO#297,Date Rptd#298,DATE OCC#299,TIME OCC#300,AREA#301,AREA NAME#302,Rpt Dist No#303,Part 1-2#304,Crm Cd#305,Crm Cd Desc#306,Mocodes#307,Vict Age#308,Vict Sex#309,Vict Descent#310,Premis Cd#311,Premis Desc#312,Weapon Used Cd#313,Weapon Desc#314,Status#315,Status Desc#316,Crm Cd 1#317,Crm Cd 2#318,Crm Cd 3#319,Crm Cd 4#320,... 4 more fields] csv
+                           +- ResolvedHint (strategy=broadcast)
+                              +- Project [X#178, Y#179, DIVISION#181]
+                                 +- Relation [X#178,Y#179,FID#180,DIVISION#181,LOCATION#182,PREC#183] csv
+
+== Analyzed Logical Plan ==
+DR_NO: int, Date Rptd: string, DATE OCC: timestamp, TIME OCC: int, AREA: int, AREA NAME: string, Rpt Dist No: int, Part 1-2: int, Crm Cd: int, Crm Cd Desc: string, Mocodes: string, Vict Age: int, Vict Sex: string, Vict Descent: string, Premis Cd: int, Premis Desc: string, Weapon Used Cd: int, Weapon Desc: string, Status: string, Status Desc: string, Crm Cd 1: int, Crm Cd 2: int, Crm Cd 3: int, Crm Cd 4: int, ... 6 more fields
+Project [DR_NO#17, Date Rptd#18, DATE OCC#74, TIME OCC#20, AREA#21, AREA NAME#132, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 6 more fields]
++- Join LeftOuter, (DR_NO#17 = DR_NO#297)
+   :- Project [DR_NO#17, Date Rptd#18, DATE OCC#74, TIME OCC#20, AREA#21, upper(AREA NAME#103) AS AREA NAME#132, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+   :  +- Project [DR_NO#17, Date Rptd#18, DATE OCC#74, TIME OCC#20, AREA#21, CASE WHEN (AREA NAME#22 = N Hollywood) THEN NORTH HOLLYWOOD WHEN (AREA NAME#22 = West LA) THEN WEST LOS ANGELES ELSE AREA NAME#22 END AS AREA NAME#103, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+   :     +- Filter StartsWith(cast(Weapon Used Cd#33 as string), 1)
+   :        +- Project [DR_NO#17, Date Rptd#18, to_timestamp(DATE OCC#19, Some(MM/dd/yyyy hh:mm:ss a), TimestampType, Some(Europe/Athens), false) AS DATE OCC#74, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+   :           +- Filter (NOT (LAT#43 = cast(0 as double)) AND NOT (LON#44 = cast(0 as double)))
+   :              +- Relation [DR_NO#17,Date Rptd#18,DATE OCC#19,TIME OCC#20,AREA#21,AREA NAME#22,Rpt Dist No#23,Part 1-2#24,Crm Cd#25,Crm Cd Desc#26,Mocodes#27,Vict Age#28,Vict Sex#29,Vict Descent#30,Premis Cd#31,Premis Desc#32,Weapon Used Cd#33,Weapon Desc#34,Status#35,Status Desc#36,Crm Cd 1#37,Crm Cd 2#38,Crm Cd 3#39,Crm Cd 4#40,... 4 more fields] csv
+   +- ResolvedHint (strategy=broadcast)
+      +- Project [DR_NO#297, DIVISION#181, distance#226]
+         +- Filter (rank#260 = 1)
+            +- Project [DR_NO#297, Date Rptd#298, DATE OCC#74, TIME OCC#300, AREA#301, AREA NAME#132, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 9 more fields]
+               +- Project [DR_NO#297, Date Rptd#298, DATE OCC#74, TIME OCC#300, AREA#301, AREA NAME#132, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 10 more fields]
+                  +- Window [row_number() windowspecdefinition(DR_NO#297, distance#226 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rank#260], [DR_NO#297], [distance#226 ASC NULLS FIRST]
+                     +- Project [DR_NO#297, Date Rptd#298, DATE OCC#74, TIME OCC#300, AREA#301, AREA NAME#132, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 8 more fields]
+                        +- Project [DR_NO#297, Date Rptd#298, DATE OCC#74, TIME OCC#300, AREA#301, AREA NAME#132, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 8 more fields]
+                           +- Join Cross
+                              :- Project [DR_NO#297, Date Rptd#298, DATE OCC#74, TIME OCC#300, AREA#301, upper(AREA NAME#103) AS AREA NAME#132, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 4 more fields]
+                              :  +- Project [DR_NO#297, Date Rptd#298, DATE OCC#74, TIME OCC#300, AREA#301, CASE WHEN (AREA NAME#302 = N Hollywood) THEN NORTH HOLLYWOOD WHEN (AREA NAME#302 = West LA) THEN WEST LOS ANGELES ELSE AREA NAME#302 END AS AREA NAME#103, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 4 more fields]
+                              :     +- Filter StartsWith(cast(Weapon Used Cd#313 as string), 1)
+                              :        +- Project [DR_NO#297, Date Rptd#298, to_timestamp(DATE OCC#299, Some(MM/dd/yyyy hh:mm:ss a), TimestampType, Some(Europe/Athens), false) AS DATE OCC#74, TIME OCC#300, AREA#301, AREA NAME#302, Rpt Dist No#303, Part 1-2#304, Crm Cd#305, Crm Cd Desc#306, Mocodes#307, Vict Age#308, Vict Sex#309, Vict Descent#310, Premis Cd#311, Premis Desc#312, Weapon Used Cd#313, Weapon Desc#314, Status#315, Status Desc#316, Crm Cd 1#317, Crm Cd 2#318, Crm Cd 3#319, Crm Cd 4#320, ... 4 more fields]
+                              :           +- Filter (NOT (LAT#323 = cast(0 as double)) AND NOT (LON#324 = cast(0 as double)))
+                              :              +- Relation [DR_NO#297,Date Rptd#298,DATE OCC#299,TIME OCC#300,AREA#301,AREA NAME#302,Rpt Dist No#303,Part 1-2#304,Crm Cd#305,Crm Cd Desc#306,Mocodes#307,Vict Age#308,Vict Sex#309,Vict Descent#310,Premis Cd#311,Premis Desc#312,Weapon Used Cd#313,Weapon Desc#314,Status#315,Status Desc#316,Crm Cd 1#317,Crm Cd 2#318,Crm Cd 3#319,Crm Cd 4#320,... 4 more fields] csv
+                              +- ResolvedHint (strategy=broadcast)
+                                 +- Project [X#178, Y#179, DIVISION#181]
+                                    +- Relation [X#178,Y#179,FID#180,DIVISION#181,LOCATION#182,PREC#183] csv
+
+== Optimized Logical Plan ==
+Project [DR_NO#17, Date Rptd#18, DATE OCC#74, TIME OCC#20, AREA#21, AREA NAME#132, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 6 more fields]
++- Join LeftOuter, (DR_NO#17 = DR_NO#297), rightHint=(strategy=broadcast)
+   :- Project [DR_NO#17, Date Rptd#18, gettimestamp(DATE OCC#19, MM/dd/yyyy hh:mm:ss a, TimestampType, Some(Europe/Athens), false) AS DATE OCC#74, TIME OCC#20, AREA#21, CASE WHEN (AREA NAME#22 = N Hollywood) THEN NORTH HOLLYWOOD WHEN (AREA NAME#22 = West LA) THEN WEST LOS ANGELES ELSE upper(AREA NAME#22) END AS AREA NAME#132, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+   :  +- Filter (((isnotnull(LAT#43) AND isnotnull(LON#44)) AND isnotnull(Weapon Used Cd#33)) AND ((NOT (LAT#43 = 0.0) AND NOT (LON#44 = 0.0)) AND StartsWith(cast(Weapon Used Cd#33 as string), 1)))
+   :     +- Relation [DR_NO#17,Date Rptd#18,DATE OCC#19,TIME OCC#20,AREA#21,AREA NAME#22,Rpt Dist No#23,Part 1-2#24,Crm Cd#25,Crm Cd Desc#26,Mocodes#27,Vict Age#28,Vict Sex#29,Vict Descent#30,Premis Cd#31,Premis Desc#32,Weapon Used Cd#33,Weapon Desc#34,Status#35,Status Desc#36,Crm Cd 1#37,Crm Cd 2#38,Crm Cd 3#39,Crm Cd 4#40,... 4 more fields] csv
+   +- Project [DR_NO#297, DIVISION#181, distance#226]
+      +- Filter (rank#260 = 1)
+         +- Window [row_number() windowspecdefinition(DR_NO#297, distance#226 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rank#260], [DR_NO#297], [distance#226 ASC NULLS FIRST]
+            +- WindowGroupLimit [DR_NO#297], [distance#226 ASC NULLS FIRST], row_number(), 1
+               +- Project [DR_NO#297, DIVISION#181, pythonUDF0#356 AS distance#226]
+                  +- BatchEvalPython [get_distance(LAT#323, LON#324, Y#179, X#178)#225], [pythonUDF0#356]
+                     +- Join Cross, rightHint=(strategy=broadcast)
+                        :- Project [DR_NO#297, LAT#323, LON#324]
+                        :  +- Filter ((((isnotnull(LAT#323) AND isnotnull(LON#324)) AND isnotnull(Weapon Used Cd#313)) AND ((NOT (LAT#323 = 0.0) AND NOT (LON#324 = 0.0)) AND StartsWith(cast(Weapon Used Cd#313 as string), 1))) AND isnotnull(DR_NO#297))
+                        :     +- Relation [DR_NO#297,Date Rptd#298,DATE OCC#299,TIME OCC#300,AREA#301,AREA NAME#302,Rpt Dist No#303,Part 1-2#304,Crm Cd#305,Crm Cd Desc#306,Mocodes#307,Vict Age#308,Vict Sex#309,Vict Descent#310,Premis Cd#311,Premis Desc#312,Weapon Used Cd#313,Weapon Desc#314,Status#315,Status Desc#316,Crm Cd 1#317,Crm Cd 2#318,Crm Cd 3#319,Crm Cd 4#320,... 4 more fields] csv
+                        +- Project [X#178, Y#179, DIVISION#181]
+                           +- Relation [X#178,Y#179,FID#180,DIVISION#181,LOCATION#182,PREC#183] csv
+
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- Project [DR_NO#17, Date Rptd#18, DATE OCC#74, TIME OCC#20, AREA#21, AREA NAME#132, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 6 more fields]
+   +- BroadcastHashJoin [DR_NO#17], [DR_NO#297], LeftOuter, BuildRight, false
+      :- Project [DR_NO#17, Date Rptd#18, gettimestamp(DATE OCC#19, MM/dd/yyyy hh:mm:ss a, TimestampType, Some(Europe/Athens), false) AS DATE OCC#74, TIME OCC#20, AREA#21, CASE WHEN (AREA NAME#22 = N Hollywood) THEN NORTH HOLLYWOOD WHEN (AREA NAME#22 = West LA) THEN WEST LOS ANGELES ELSE upper(AREA NAME#22) END AS AREA NAME#132, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+      :  +- Filter (((((isnotnull(LAT#43) AND isnotnull(LON#44)) AND isnotnull(Weapon Used Cd#33)) AND NOT (LAT#43 = 0.0)) AND NOT (LON#44 = 0.0)) AND StartsWith(cast(Weapon Used Cd#33 as string), 1))
+      :     +- FileScan csv [DR_NO#17,Date Rptd#18,DATE OCC#19,TIME OCC#20,AREA#21,AREA NAME#22,Rpt Dist No#23,Part 1-2#24,Crm Cd#25,Crm Cd Desc#26,Mocodes#27,Vict Age#28,Vict Sex#29,Vict Descent#30,Premis Cd#31,Premis Desc#32,Weapon Used Cd#33,Weapon Desc#34,Status#35,Status Desc#36,Crm Cd 1#37,Crm Cd 2#38,Crm Cd 3#39,Crm Cd 4#40,... 4 more fields] Batched: false, DataFilters: [isnotnull(LAT#43), isnotnull(LON#44), isnotnull(Weapon Used Cd#33), NOT (LAT#43 = 0.0), NOT (LON..., Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/Crime_Data_from_2010_to_Prese..., PartitionFilters: [], PushedFilters: [IsNotNull(LAT), IsNotNull(LON), IsNotNull(Weapon Used Cd), Not(EqualTo(LAT,0.0)), Not(EqualTo(LO..., ReadSchema: struct<DR_NO:int,Date Rptd:string,DATE OCC:string,TIME OCC:int,AREA:int,AREA NAME:string,Rpt Dist...
+      +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=130]
+         +- Project [DR_NO#297, DIVISION#181, distance#226]
+            +- Filter (rank#260 = 1)
+               +- Window [row_number() windowspecdefinition(DR_NO#297, distance#226 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rank#260], [DR_NO#297], [distance#226 ASC NULLS FIRST]
+                  +- WindowGroupLimit [DR_NO#297], [distance#226 ASC NULLS FIRST], row_number(), 1, Final
+                     +- Sort [DR_NO#297 ASC NULLS FIRST, distance#226 ASC NULLS FIRST], false, 0
+                        +- Exchange hashpartitioning(DR_NO#297, 200), ENSURE_REQUIREMENTS, [plan_id=123]
+                           +- WindowGroupLimit [DR_NO#297], [distance#226 ASC NULLS FIRST], row_number(), 1, Partial
+                              +- Sort [DR_NO#297 ASC NULLS FIRST, distance#226 ASC NULLS FIRST], false, 0
+                                 +- Project [DR_NO#297, DIVISION#181, pythonUDF0#356 AS distance#226]
+                                    +- BatchEvalPython [get_distance(LAT#323, LON#324, Y#179, X#178)#225], [pythonUDF0#356]
+                                       +- BroadcastNestedLoopJoin BuildRight, Cross
+                                          :- Project [DR_NO#297, LAT#323, LON#324]
+                                          :  +- Filter ((((((isnotnull(LAT#323) AND isnotnull(LON#324)) AND isnotnull(Weapon Used Cd#313)) AND NOT (LAT#323 = 0.0)) AND NOT (LON#324 = 0.0)) AND StartsWith(cast(Weapon Used Cd#313 as string), 1)) AND isnotnull(DR_NO#297))
+                                          :     +- FileScan csv [DR_NO#297,Weapon Used Cd#313,LAT#323,LON#324] Batched: false, DataFilters: [isnotnull(LAT#323), isnotnull(LON#324), isnotnull(Weapon Used Cd#313), NOT (LAT#323 = 0.0), NOT ..., Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/Crime_Data_from_2010_to_Prese..., PartitionFilters: [], PushedFilters: [IsNotNull(LAT), IsNotNull(LON), IsNotNull(Weapon Used Cd), Not(EqualTo(LAT,0.0)), Not(EqualTo(LO..., ReadSchema: struct<DR_NO:int,Weapon Used Cd:int,LAT:double,LON:double>
+                                          +- BroadcastExchange IdentityBroadcastMode, [plan_id=115]
+                                             +- FileScan csv [X#178,Y#179,DIVISION#181] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/LAPD_Police_Stations.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<X:double,Y:double,DIVISION:string>
+
++----+------------------+-----------+
+|year|  average_distance|crime_count|
++----+------------------+-----------+
+|2010|2.4342351310730677|       8212|
+|2011|2.4610050784310036|       7232|
+|2012| 2.505525574337135|       6532|
+|2013| 2.455543756898956|       5838|
+|2014| 2.387929441971381|       4526|
+|2015|2.3872613200248236|       6763|
+|2016| 2.428195035737647|       8100|
+|2017| 2.391618932774621|       7786|
+|2018|2.4082079737438558|       7413|
+|2019| 2.429408810977738|       7129|
+|2020| 2.383615837920013|       8487|
+|2021| 2.406949935507564|      12324|
+|2022| 2.312096005221271|      10025|
+|2023| 2.265928523017909|       8896|
++----+------------------+-----------+
+
++---------------+------------------+-----------+
+|       DIVISION|  average_distance|crime_count|
++---------------+------------------+-----------+
+|    77TH STREET|1.7215559668317966|      13489|
+|      SOUTHEAST| 2.195598619505967|      11816|
+|      SOUTHWEST| 2.279343343133393|      11209|
+|         NEWTON|1.5693029438285107|       7161|
+|       WILSHIRE| 2.444650564947835|       6253|
+|     HOLLENBECK|2.6368430364933166|       6174|
+|        OLYMPIC| 1.665470250718684|       5415|
+|      HOLLYWOOD| 2.008655910386429|       5378|
+|         HARBOR| 3.898237935420464|       5322|
+|        RAMPART|1.3978586849187005|       4700|
+|       FOOTHILL|3.6003578272455212|       4693|
+|       VAN NUYS|2.9734701269529005|       4673|
+|        CENTRAL|1.0176983019996637|       3584|
+|NORTH HOLLYWOOD|2.7455806429314515|       3389|
+|      NORTHEAST| 3.755563871818786|       3096|
+|        MISSION| 3.806759164814485|       2853|
+|    WEST VALLEY|2.7933743074834965|       2755|
+|        PACIFIC| 3.701455467941068|       2522|
+|        TOPANGA|3.0519644506900665|       2435|
+|     DEVONSHIRE|  2.98460272256774|       1332|
++---------------+------------------+-----------+
+only showing top 20 rows
+

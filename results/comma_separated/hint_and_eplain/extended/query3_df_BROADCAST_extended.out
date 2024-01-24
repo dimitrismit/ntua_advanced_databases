@@ -1,0 +1,315 @@
+query3_df.py
+extended
+----------------------------------------------------------------------------------------------------
+Spark session started for query3_df_BROADCAST !
+----------------------------------------------------------------------------------------------------
+== Parsed Logical Plan ==
+'Join UsingJoin(LeftSemi, [Zip Code])
+:- Relation [Zip Code#90,Community#91,Estimated Median Income#92] csv
++- ResolvedHint (strategy=broadcast)
+   +- Project [LAT#113, LON#114, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+      +- Project [LAT#113, LON#114, ZIPcode#115 AS Zip Code#149]
+         +- Relation [LAT#113,LON#114,ZIPcode#115] csv
+
+== Analyzed Logical Plan ==
+Zip Code: int, Community: string, Estimated Median Income: string
+Project [Zip Code#90, Community#91, Estimated Median Income#92]
++- Join LeftSemi, (Zip Code#90 = cast(Zip Code#154 as int))
+   :- Relation [Zip Code#90,Community#91,Estimated Median Income#92] csv
+   +- ResolvedHint (strategy=broadcast)
+      +- Project [LAT#113, LON#114, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+         +- Project [LAT#113, LON#114, ZIPcode#115 AS Zip Code#149]
+            +- Relation [LAT#113,LON#114,ZIPcode#115] csv
+
+== Optimized Logical Plan ==
+Join LeftSemi, (Zip Code#90 = cast(Zip Code#154 as int)), rightHint=(strategy=broadcast)
+:- Filter isnotnull(Zip Code#90)
+:  +- Relation [Zip Code#90,Community#91,Estimated Median Income#92] csv
++- Project [regexp_extract(ZIPcode#115, ^(\d+), 1) AS Zip Code#154]
+   +- Filter isnotnull(regexp_extract(ZIPcode#115, ^(\d+), 1))
+      +- Relation [LAT#113,LON#114,ZIPcode#115] csv
+
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- BroadcastHashJoin [Zip Code#90], [cast(Zip Code#154 as int)], LeftSemi, BuildRight, false
+   :- Filter isnotnull(Zip Code#90)
+   :  +- FileScan csv [Zip Code#90,Community#91,Estimated Median Income#92] Batched: false, DataFilters: [isnotnull(Zip Code#90)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/income/LA_income_2015.csv], PartitionFilters: [], PushedFilters: [IsNotNull(Zip Code)], ReadSchema: struct<Zip Code:int,Community:string,Estimated Median Income:string>
+   +- BroadcastExchange HashedRelationBroadcastMode(List(cast(cast(input[0, string, true] as int) as bigint)),false), [plan_id=78]
+      +- Project [regexp_extract(ZIPcode#115, ^(\d+), 1) AS Zip Code#154]
+         +- Filter isnotnull(regexp_extract(ZIPcode#115, ^(\d+), 1))
+            +- FileScan csv [ZIPcode#115] Batched: false, DataFilters: [isnotnull(regexp_extract(ZIPcode#115, ^(\d+), 1))], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/revgecoding.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<ZIPcode:string>
+
+== Parsed Logical Plan ==
+'Join UsingJoin(LeftSemi, [Zip Code])
+:- Project [LAT#113, LON#114, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+:  +- Project [LAT#113, LON#114, ZIPcode#115 AS Zip Code#149]
+:     +- Relation [LAT#113,LON#114,ZIPcode#115] csv
++- ResolvedHint (strategy=broadcast)
+   +- Union false, false
+      :- Project [Zip Code#90]
+      :  +- GlobalLimit 3
+      :     +- LocalLimit 3
+      :        +- Sort [Estimated Median Income#92 DESC NULLS LAST], true
+      :           +- Project [Zip Code#90, Community#91, Estimated Median Income#92]
+      :              +- Join LeftSemi, (Zip Code#90 = cast(Zip Code#154 as int))
+      :                 :- Relation [Zip Code#90,Community#91,Estimated Median Income#92] csv
+      :                 +- ResolvedHint (strategy=broadcast)
+      :                    +- Project [LAT#173, LON#174, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+      :                       +- Project [LAT#173, LON#174, ZIPcode#175 AS Zip Code#149]
+      :                          +- Relation [LAT#173,LON#174,ZIPcode#175] csv
+      +- Project [Zip Code#164]
+         +- GlobalLimit 3
+            +- LocalLimit 3
+               +- Sort [Estimated Median Income#166 ASC NULLS FIRST], true
+                  +- Project [Zip Code#164, Community#165, Estimated Median Income#166]
+                     +- Join LeftSemi, (Zip Code#164 = cast(Zip Code#154 as int))
+                        :- Relation [Zip Code#164,Community#165,Estimated Median Income#166] csv
+                        +- ResolvedHint (strategy=broadcast)
+                           +- Project [LAT#167, LON#168, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+                              +- Project [LAT#167, LON#168, ZIPcode#169 AS Zip Code#149]
+                                 +- Relation [LAT#167,LON#168,ZIPcode#169] csv
+
+== Analyzed Logical Plan ==
+Zip Code: string, LAT: double, LON: double
+Project [Zip Code#154, LAT#113, LON#114]
++- Join LeftSemi, (cast(Zip Code#154 as int) = Zip Code#90)
+   :- Project [LAT#113, LON#114, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+   :  +- Project [LAT#113, LON#114, ZIPcode#115 AS Zip Code#149]
+   :     +- Relation [LAT#113,LON#114,ZIPcode#115] csv
+   +- ResolvedHint (strategy=broadcast)
+      +- Union false, false
+         :- Project [Zip Code#90]
+         :  +- GlobalLimit 3
+         :     +- LocalLimit 3
+         :        +- Sort [Estimated Median Income#92 DESC NULLS LAST], true
+         :           +- Project [Zip Code#90, Community#91, Estimated Median Income#92]
+         :              +- Join LeftSemi, (Zip Code#90 = cast(Zip Code#154 as int))
+         :                 :- Relation [Zip Code#90,Community#91,Estimated Median Income#92] csv
+         :                 +- ResolvedHint (strategy=broadcast)
+         :                    +- Project [LAT#173, LON#174, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+         :                       +- Project [LAT#173, LON#174, ZIPcode#175 AS Zip Code#149]
+         :                          +- Relation [LAT#173,LON#174,ZIPcode#175] csv
+         +- Project [Zip Code#164]
+            +- GlobalLimit 3
+               +- LocalLimit 3
+                  +- Sort [Estimated Median Income#166 ASC NULLS FIRST], true
+                     +- Project [Zip Code#164, Community#165, Estimated Median Income#166]
+                        +- Join LeftSemi, (Zip Code#164 = cast(Zip Code#154 as int))
+                           :- Relation [Zip Code#164,Community#165,Estimated Median Income#166] csv
+                           +- ResolvedHint (strategy=broadcast)
+                              +- Project [LAT#167, LON#168, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+                                 +- Project [LAT#167, LON#168, ZIPcode#169 AS Zip Code#149]
+                                    +- Relation [LAT#167,LON#168,ZIPcode#169] csv
+
+== Optimized Logical Plan ==
+Project [Zip Code#154, LAT#113, LON#114]
++- Join LeftSemi, (cast(Zip Code#154 as int) = Zip Code#90), rightHint=(strategy=broadcast)
+   :- Project [LAT#113, LON#114, regexp_extract(ZIPcode#115, ^(\d+), 1) AS Zip Code#154]
+   :  +- Filter isnotnull(regexp_extract(ZIPcode#115, ^(\d+), 1))
+   :     +- Relation [LAT#113,LON#114,ZIPcode#115] csv
+   +- Union false, false
+      :- GlobalLimit 3
+      :  +- LocalLimit 3
+      :     +- Project [Zip Code#90]
+      :        +- Sort [Estimated Median Income#92 DESC NULLS LAST], true
+      :           +- Join LeftSemi, (Zip Code#90 = cast(Zip Code#154 as int)), rightHint=(strategy=broadcast)
+      :              :- Project [Zip Code#90, Estimated Median Income#92]
+      :              :  +- Filter isnotnull(Zip Code#90)
+      :              :     +- Relation [Zip Code#90,Community#91,Estimated Median Income#92] csv
+      :              +- Project [regexp_extract(ZIPcode#175, ^(\d+), 1) AS Zip Code#154]
+      :                 +- Filter isnotnull(regexp_extract(ZIPcode#175, ^(\d+), 1))
+      :                    +- Relation [LAT#173,LON#174,ZIPcode#175] csv
+      +- GlobalLimit 3
+         +- LocalLimit 3
+            +- Project [Zip Code#164]
+               +- Sort [Estimated Median Income#166 ASC NULLS FIRST], true
+                  +- Join LeftSemi, (Zip Code#164 = cast(Zip Code#154 as int)), rightHint=(strategy=broadcast)
+                     :- Project [Zip Code#164, Estimated Median Income#166]
+                     :  +- Filter isnotnull(Zip Code#164)
+                     :     +- Relation [Zip Code#164,Community#165,Estimated Median Income#166] csv
+                     +- Project [regexp_extract(ZIPcode#169, ^(\d+), 1) AS Zip Code#154]
+                        +- Filter isnotnull(regexp_extract(ZIPcode#169, ^(\d+), 1))
+                           +- Relation [LAT#167,LON#168,ZIPcode#169] csv
+
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- Project [Zip Code#154, LAT#113, LON#114]
+   +- BroadcastHashJoin [cast(Zip Code#154 as int)], [Zip Code#90], LeftSemi, BuildRight, false
+      :- Project [LAT#113, LON#114, regexp_extract(ZIPcode#115, ^(\d+), 1) AS Zip Code#154]
+      :  +- Filter isnotnull(regexp_extract(ZIPcode#115, ^(\d+), 1))
+      :     +- FileScan csv [LAT#113,LON#114,ZIPcode#115] Batched: false, DataFilters: [isnotnull(regexp_extract(ZIPcode#115, ^(\d+), 1))], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/revgecoding.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<LAT:double,LON:double,ZIPcode:string>
+      +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=163]
+         +- Union
+            :- TakeOrderedAndProject(limit=3, orderBy=[Estimated Median Income#92 DESC NULLS LAST], output=[Zip Code#90])
+            :  +- BroadcastHashJoin [Zip Code#90], [cast(Zip Code#154 as int)], LeftSemi, BuildRight, false
+            :     :- Filter isnotnull(Zip Code#90)
+            :     :  +- FileScan csv [Zip Code#90,Estimated Median Income#92] Batched: false, DataFilters: [isnotnull(Zip Code#90)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/income/LA_income_2015.csv], PartitionFilters: [], PushedFilters: [IsNotNull(Zip Code)], ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
+            :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(cast(input[0, string, true] as int) as bigint)),false), [plan_id=155]
+            :        +- Project [regexp_extract(ZIPcode#175, ^(\d+), 1) AS Zip Code#154]
+            :           +- Filter isnotnull(regexp_extract(ZIPcode#175, ^(\d+), 1))
+            :              +- FileScan csv [ZIPcode#175] Batched: false, DataFilters: [isnotnull(regexp_extract(ZIPcode#175, ^(\d+), 1))], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/revgecoding.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<ZIPcode:string>
+            +- TakeOrderedAndProject(limit=3, orderBy=[Estimated Median Income#166 ASC NULLS FIRST], output=[Zip Code#164])
+               +- BroadcastHashJoin [Zip Code#164], [cast(Zip Code#154 as int)], LeftSemi, BuildRight, false
+                  :- Filter isnotnull(Zip Code#164)
+                  :  +- FileScan csv [Zip Code#164,Estimated Median Income#166] Batched: false, DataFilters: [isnotnull(Zip Code#164)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/income/LA_income_2015.csv], PartitionFilters: [], PushedFilters: [IsNotNull(Zip Code)], ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
+                  +- BroadcastExchange HashedRelationBroadcastMode(List(cast(cast(input[0, string, true] as int) as bigint)),false), [plan_id=158]
+                     +- Project [regexp_extract(ZIPcode#169, ^(\d+), 1) AS Zip Code#154]
+                        +- Filter isnotnull(regexp_extract(ZIPcode#169, ^(\d+), 1))
+                           +- FileScan csv [ZIPcode#169] Batched: false, DataFilters: [isnotnull(regexp_extract(ZIPcode#169, ^(\d+), 1))], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/revgecoding.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<ZIPcode:string>
+
+== Parsed Logical Plan ==
+'Join UsingJoin(LeftSemi, [LAT, LON])
+:- Filter (year(cast(DATE OCC#120 as date)) = 2015)
+:  +- Project [DR_NO#17, Date Rptd#18, to_timestamp(DATE OCC#19, Some(MM/dd/yyyy hh:mm:ss a), TimestampType, Some(Europe/Athens), false) AS DATE OCC#120, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+:     +- Filter isnotnull(Vict Descent#30)
+:        +- Relation [DR_NO#17,Date Rptd#18,DATE OCC#19,TIME OCC#20,AREA#21,AREA NAME#22,Rpt Dist No#23,Part 1-2#24,Crm Cd#25,Crm Cd Desc#26,Mocodes#27,Vict Age#28,Vict Sex#29,Vict Descent#30,Premis Cd#31,Premis Desc#32,Weapon Used Cd#33,Weapon Desc#34,Status#35,Status Desc#36,Crm Cd 1#37,Crm Cd 2#38,Crm Cd 3#39,Crm Cd 4#40,... 4 more fields] csv
++- ResolvedHint (strategy=broadcast)
+   +- Project [Zip Code#154, LAT#113, LON#114]
+      +- Join LeftSemi, (cast(Zip Code#154 as int) = Zip Code#90)
+         :- Project [LAT#113, LON#114, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+         :  +- Project [LAT#113, LON#114, ZIPcode#115 AS Zip Code#149]
+         :     +- Relation [LAT#113,LON#114,ZIPcode#115] csv
+         +- ResolvedHint (strategy=broadcast)
+            +- Union false, false
+               :- Project [Zip Code#90]
+               :  +- GlobalLimit 3
+               :     +- LocalLimit 3
+               :        +- Sort [Estimated Median Income#92 DESC NULLS LAST], true
+               :           +- Project [Zip Code#90, Community#91, Estimated Median Income#92]
+               :              +- Join LeftSemi, (Zip Code#90 = cast(Zip Code#154 as int))
+               :                 :- Relation [Zip Code#90,Community#91,Estimated Median Income#92] csv
+               :                 +- ResolvedHint (strategy=broadcast)
+               :                    +- Project [LAT#173, LON#174, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+               :                       +- Project [LAT#173, LON#174, ZIPcode#175 AS Zip Code#149]
+               :                          +- Relation [LAT#173,LON#174,ZIPcode#175] csv
+               +- Project [Zip Code#164]
+                  +- GlobalLimit 3
+                     +- LocalLimit 3
+                        +- Sort [Estimated Median Income#166 ASC NULLS FIRST], true
+                           +- Project [Zip Code#164, Community#165, Estimated Median Income#166]
+                              +- Join LeftSemi, (Zip Code#164 = cast(Zip Code#154 as int))
+                                 :- Relation [Zip Code#164,Community#165,Estimated Median Income#166] csv
+                                 +- ResolvedHint (strategy=broadcast)
+                                    +- Project [LAT#167, LON#168, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+                                       +- Project [LAT#167, LON#168, ZIPcode#169 AS Zip Code#149]
+                                          +- Relation [LAT#167,LON#168,ZIPcode#169] csv
+
+== Analyzed Logical Plan ==
+LAT: double, LON: double, DR_NO: int, Date Rptd: string, DATE OCC: timestamp, TIME OCC: int, AREA: int, AREA NAME: string, Rpt Dist No: int, Part 1-2: int, Crm Cd: int, Crm Cd Desc: string, Mocodes: string, Vict Age: int, Vict Sex: string, Vict Descent: string, Premis Cd: int, Premis Desc: string, Weapon Used Cd: int, Weapon Desc: string, Status: string, Status Desc: string, Crm Cd 1: int, Crm Cd 2: int, ... 4 more fields
+Project [LAT#43, LON#44, DR_NO#17, Date Rptd#18, DATE OCC#120, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, ... 4 more fields]
++- Join LeftSemi, ((LAT#43 = LAT#113) AND (LON#44 = LON#114))
+   :- Filter (year(cast(DATE OCC#120 as date)) = 2015)
+   :  +- Project [DR_NO#17, Date Rptd#18, to_timestamp(DATE OCC#19, Some(MM/dd/yyyy hh:mm:ss a), TimestampType, Some(Europe/Athens), false) AS DATE OCC#120, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+   :     +- Filter isnotnull(Vict Descent#30)
+   :        +- Relation [DR_NO#17,Date Rptd#18,DATE OCC#19,TIME OCC#20,AREA#21,AREA NAME#22,Rpt Dist No#23,Part 1-2#24,Crm Cd#25,Crm Cd Desc#26,Mocodes#27,Vict Age#28,Vict Sex#29,Vict Descent#30,Premis Cd#31,Premis Desc#32,Weapon Used Cd#33,Weapon Desc#34,Status#35,Status Desc#36,Crm Cd 1#37,Crm Cd 2#38,Crm Cd 3#39,Crm Cd 4#40,... 4 more fields] csv
+   +- ResolvedHint (strategy=broadcast)
+      +- Project [Zip Code#154, LAT#113, LON#114]
+         +- Join LeftSemi, (cast(Zip Code#154 as int) = Zip Code#90)
+            :- Project [LAT#113, LON#114, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+            :  +- Project [LAT#113, LON#114, ZIPcode#115 AS Zip Code#149]
+            :     +- Relation [LAT#113,LON#114,ZIPcode#115] csv
+            +- ResolvedHint (strategy=broadcast)
+               +- Union false, false
+                  :- Project [Zip Code#90]
+                  :  +- GlobalLimit 3
+                  :     +- LocalLimit 3
+                  :        +- Sort [Estimated Median Income#92 DESC NULLS LAST], true
+                  :           +- Project [Zip Code#90, Community#91, Estimated Median Income#92]
+                  :              +- Join LeftSemi, (Zip Code#90 = cast(Zip Code#154 as int))
+                  :                 :- Relation [Zip Code#90,Community#91,Estimated Median Income#92] csv
+                  :                 +- ResolvedHint (strategy=broadcast)
+                  :                    +- Project [LAT#173, LON#174, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+                  :                       +- Project [LAT#173, LON#174, ZIPcode#175 AS Zip Code#149]
+                  :                          +- Relation [LAT#173,LON#174,ZIPcode#175] csv
+                  +- Project [Zip Code#164]
+                     +- GlobalLimit 3
+                        +- LocalLimit 3
+                           +- Sort [Estimated Median Income#166 ASC NULLS FIRST], true
+                              +- Project [Zip Code#164, Community#165, Estimated Median Income#166]
+                                 +- Join LeftSemi, (Zip Code#164 = cast(Zip Code#154 as int))
+                                    :- Relation [Zip Code#164,Community#165,Estimated Median Income#166] csv
+                                    +- ResolvedHint (strategy=broadcast)
+                                       +- Project [LAT#167, LON#168, regexp_extract(Zip Code#149, ^(\d+), 1) AS Zip Code#154]
+                                          +- Project [LAT#167, LON#168, ZIPcode#169 AS Zip Code#149]
+                                             +- Relation [LAT#167,LON#168,ZIPcode#169] csv
+
+== Optimized Logical Plan ==
+Project [LAT#43, LON#44, DR_NO#17, Date Rptd#18, DATE OCC#120, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, ... 4 more fields]
++- Join LeftSemi, ((knownfloatingpointnormalized(normalizenanandzero(LAT#43)) = knownfloatingpointnormalized(normalizenanandzero(LAT#113))) AND (knownfloatingpointnormalized(normalizenanandzero(LON#44)) = knownfloatingpointnormalized(normalizenanandzero(LON#114)))), rightHint=(strategy=broadcast)
+   :- Project [DR_NO#17, Date Rptd#18, gettimestamp(DATE OCC#19, MM/dd/yyyy hh:mm:ss a, TimestampType, Some(Europe/Athens), false) AS DATE OCC#120, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+   :  +- Filter ((isnotnull(Vict Descent#30) AND (year(cast(gettimestamp(DATE OCC#19, MM/dd/yyyy hh:mm:ss a, TimestampType, Some(Europe/Athens), false) as date)) = 2015)) AND (isnotnull(LAT#43) AND isnotnull(LON#44)))
+   :     +- Relation [DR_NO#17,Date Rptd#18,DATE OCC#19,TIME OCC#20,AREA#21,AREA NAME#22,Rpt Dist No#23,Part 1-2#24,Crm Cd#25,Crm Cd Desc#26,Mocodes#27,Vict Age#28,Vict Sex#29,Vict Descent#30,Premis Cd#31,Premis Desc#32,Weapon Used Cd#33,Weapon Desc#34,Status#35,Status Desc#36,Crm Cd 1#37,Crm Cd 2#38,Crm Cd 3#39,Crm Cd 4#40,... 4 more fields] csv
+   +- Project [LAT#113, LON#114]
+      +- Join LeftSemi, (cast(Zip Code#154 as int) = Zip Code#90), rightHint=(strategy=broadcast)
+         :- Project [LAT#113, LON#114, regexp_extract(ZIPcode#115, ^(\d+), 1) AS Zip Code#154]
+         :  +- Filter (isnotnull(regexp_extract(ZIPcode#115, ^(\d+), 1)) AND (isnotnull(LAT#113) AND isnotnull(LON#114)))
+         :     +- Relation [LAT#113,LON#114,ZIPcode#115] csv
+         +- Union false, false
+            :- GlobalLimit 3
+            :  +- LocalLimit 3
+            :     +- Project [Zip Code#90]
+            :        +- Sort [Estimated Median Income#92 DESC NULLS LAST], true
+            :           +- Join LeftSemi, (Zip Code#90 = cast(Zip Code#154 as int)), rightHint=(strategy=broadcast)
+            :              :- Project [Zip Code#90, Estimated Median Income#92]
+            :              :  +- Filter isnotnull(Zip Code#90)
+            :              :     +- Relation [Zip Code#90,Community#91,Estimated Median Income#92] csv
+            :              +- Project [regexp_extract(ZIPcode#175, ^(\d+), 1) AS Zip Code#154]
+            :                 +- Filter isnotnull(regexp_extract(ZIPcode#175, ^(\d+), 1))
+            :                    +- Relation [LAT#173,LON#174,ZIPcode#175] csv
+            +- GlobalLimit 3
+               +- LocalLimit 3
+                  +- Project [Zip Code#164]
+                     +- Sort [Estimated Median Income#166 ASC NULLS FIRST], true
+                        +- Join LeftSemi, (Zip Code#164 = cast(Zip Code#154 as int)), rightHint=(strategy=broadcast)
+                           :- Project [Zip Code#164, Estimated Median Income#166]
+                           :  +- Filter isnotnull(Zip Code#164)
+                           :     +- Relation [Zip Code#164,Community#165,Estimated Median Income#166] csv
+                           +- Project [regexp_extract(ZIPcode#169, ^(\d+), 1) AS Zip Code#154]
+                              +- Filter isnotnull(regexp_extract(ZIPcode#169, ^(\d+), 1))
+                                 +- Relation [LAT#167,LON#168,ZIPcode#169] csv
+
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- Project [LAT#43, LON#44, DR_NO#17, Date Rptd#18, DATE OCC#120, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, ... 4 more fields]
+   +- BroadcastHashJoin [knownfloatingpointnormalized(normalizenanandzero(LAT#43)), knownfloatingpointnormalized(normalizenanandzero(LON#44))], [knownfloatingpointnormalized(normalizenanandzero(LAT#113)), knownfloatingpointnormalized(normalizenanandzero(LON#114))], LeftSemi, BuildRight, false
+      :- Project [DR_NO#17, Date Rptd#18, gettimestamp(DATE OCC#19, MM/dd/yyyy hh:mm:ss a, TimestampType, Some(Europe/Athens), false) AS DATE OCC#120, TIME OCC#20, AREA#21, AREA NAME#22, Rpt Dist No#23, Part 1-2#24, Crm Cd#25, Crm Cd Desc#26, Mocodes#27, Vict Age#28, Vict Sex#29, Vict Descent#30, Premis Cd#31, Premis Desc#32, Weapon Used Cd#33, Weapon Desc#34, Status#35, Status Desc#36, Crm Cd 1#37, Crm Cd 2#38, Crm Cd 3#39, Crm Cd 4#40, ... 4 more fields]
+      :  +- Filter (((isnotnull(Vict Descent#30) AND (year(cast(gettimestamp(DATE OCC#19, MM/dd/yyyy hh:mm:ss a, TimestampType, Some(Europe/Athens), false) as date)) = 2015)) AND isnotnull(LAT#43)) AND isnotnull(LON#44))
+      :     +- FileScan csv [DR_NO#17,Date Rptd#18,DATE OCC#19,TIME OCC#20,AREA#21,AREA NAME#22,Rpt Dist No#23,Part 1-2#24,Crm Cd#25,Crm Cd Desc#26,Mocodes#27,Vict Age#28,Vict Sex#29,Vict Descent#30,Premis Cd#31,Premis Desc#32,Weapon Used Cd#33,Weapon Desc#34,Status#35,Status Desc#36,Crm Cd 1#37,Crm Cd 2#38,Crm Cd 3#39,Crm Cd 4#40,... 4 more fields] Batched: false, DataFilters: [isnotnull(Vict Descent#30), (year(cast(gettimestamp(DATE OCC#19, MM/dd/yyyy hh:mm:ss a, Timestam..., Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/Crime_Data_from_2010_to_Prese..., PartitionFilters: [], PushedFilters: [IsNotNull(Vict Descent), IsNotNull(LAT), IsNotNull(LON)], ReadSchema: struct<DR_NO:int,Date Rptd:string,DATE OCC:string,TIME OCC:int,AREA:int,AREA NAME:string,Rpt Dist...
+      +- BroadcastExchange HashedRelationBroadcastMode(List(knownfloatingpointnormalized(normalizenanandzero(input[0, double, true])), knownfloatingpointnormalized(normalizenanandzero(input[1, double, true]))),false), [plan_id=271]
+         +- Project [LAT#113, LON#114]
+            +- BroadcastHashJoin [cast(Zip Code#154 as int)], [Zip Code#90], LeftSemi, BuildRight, false
+               :- Project [LAT#113, LON#114, regexp_extract(ZIPcode#115, ^(\d+), 1) AS Zip Code#154]
+               :  +- Filter ((isnotnull(regexp_extract(ZIPcode#115, ^(\d+), 1)) AND isnotnull(LAT#113)) AND isnotnull(LON#114))
+               :     +- FileScan csv [LAT#113,LON#114,ZIPcode#115] Batched: false, DataFilters: [isnotnull(regexp_extract(ZIPcode#115, ^(\d+), 1)), isnotnull(LAT#113), isnotnull(LON#114)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/revgecoding.csv], PartitionFilters: [], PushedFilters: [IsNotNull(LAT), IsNotNull(LON)], ReadSchema: struct<LAT:double,LON:double,ZIPcode:string>
+               +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=267]
+                  +- Union
+                     :- TakeOrderedAndProject(limit=3, orderBy=[Estimated Median Income#92 DESC NULLS LAST], output=[Zip Code#90])
+                     :  +- BroadcastHashJoin [Zip Code#90], [cast(Zip Code#154 as int)], LeftSemi, BuildRight, false
+                     :     :- Filter isnotnull(Zip Code#90)
+                     :     :  +- FileScan csv [Zip Code#90,Estimated Median Income#92] Batched: false, DataFilters: [isnotnull(Zip Code#90)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/income/LA_income_2015.csv], PartitionFilters: [], PushedFilters: [IsNotNull(Zip Code)], ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
+                     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(cast(input[0, string, true] as int) as bigint)),false), [plan_id=259]
+                     :        +- Project [regexp_extract(ZIPcode#175, ^(\d+), 1) AS Zip Code#154]
+                     :           +- Filter isnotnull(regexp_extract(ZIPcode#175, ^(\d+), 1))
+                     :              +- FileScan csv [ZIPcode#175] Batched: false, DataFilters: [isnotnull(regexp_extract(ZIPcode#175, ^(\d+), 1))], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/revgecoding.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<ZIPcode:string>
+                     +- TakeOrderedAndProject(limit=3, orderBy=[Estimated Median Income#166 ASC NULLS FIRST], output=[Zip Code#164])
+                        +- BroadcastHashJoin [Zip Code#164], [cast(Zip Code#154 as int)], LeftSemi, BuildRight, false
+                           :- Filter isnotnull(Zip Code#164)
+                           :  +- FileScan csv [Zip Code#164,Estimated Median Income#166] Batched: false, DataFilters: [isnotnull(Zip Code#164)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/income/LA_income_2015.csv], PartitionFilters: [], PushedFilters: [IsNotNull(Zip Code)], ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
+                           +- BroadcastExchange HashedRelationBroadcastMode(List(cast(cast(input[0, string, true] as int) as bigint)),false), [plan_id=262]
+                              +- Project [regexp_extract(ZIPcode#169, ^(\d+), 1) AS Zip Code#154]
+                                 +- Filter isnotnull(regexp_extract(ZIPcode#169, ^(\d+), 1))
+                                    +- FileScan csv [ZIPcode#169] Batched: false, DataFilters: [isnotnull(regexp_extract(ZIPcode#169, ^(\d+), 1))], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://okeanos-master:54310/project_data/revgecoding.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<ZIPcode:string>
+
++----------------------+------------+
+|Vict Descent          |Victim Count|
++----------------------+------------+
+|White                 |2219        |
+|Other                 |543         |
+|Hispanic/Latin/Mexican|418         |
+|Unknown               |281         |
+|Black                 |250         |
+|Other Asian           |125         |
+|Filipino              |3           |
+|Japanese              |1           |
++----------------------+------------+
+
