@@ -56,24 +56,23 @@ print("-"*100)
 
 #change column types
 
-df_2010_to_2019.withColumn("Date Rptd", to_date(df_2010_to_2019["Date Rptd"], "MM-dd-yyyy").cast(DateType()))
-df_2010_to_2019.withColumn("DATE OCC", to_date(df_2010_to_2019["DATE OCC"], "MM-dd-yyyy").cast(DateType()))
+df_2010_to_2019 = df_2010_to_2019.withColumn("Date Rptd", to_date(df_2010_to_2019["Date Rptd"], "MM-dd-yyyy").cast(DateType()))
+df_2010_to_2019 = df_2010_to_2019.withColumn("DATE OCC", to_date(df_2010_to_2019["DATE OCC"], "MM-dd-yyyy").cast(DateType()))
 #df.withColumn("DATE OCC",col("DATE OCC").cast(DateType()))
-df_2010_to_2019.withColumn("Vict Age",col("Vict Age").cast(IntegerType()))
-df_2010_to_2019.withColumn("LAT",col("LAT").cast(DoubleType()))
-df_2010_to_2019.withColumn("LON",col("LON").cast(DoubleType()))
+df_2010_to_2019 = df_2010_to_2019.withColumn("Vict Age",col("Vict Age").cast(IntegerType()))
+df_2010_to_2019 = df_2010_to_2019.withColumn("LAT",col("LAT").cast(DoubleType()))
+df_2010_to_2019 = df_2010_to_2019.withColumn("LON",col("LON").cast(DoubleType()))
 print("This is the updated schema")
 schemaString = df_2010_to_2019._jdf.schema().treeString()
 print(schemaString)
 print("-"*100)
 
-df_2020_to_present.withColumn("Date Rptd", to_date(df_2020_to_present["Date Rptd"], "MM-dd-yyyy").cast(DateType()))
-df_2020_to_present.withColumn("DATE OCC", to_date(df_2020_to_present["DATE OCC"], "MM-dd-yyyy").cast(DateType()))
+df_2020_to_present = df_2020_to_present.withColumn("Date Rptd", to_date(df_2020_to_present["Date Rptd"], "MM-dd-yyyy").cast(DateType()))
+df_2020_to_present =df_2020_to_present.withColumn("DATE OCC", to_date(df_2020_to_present["DATE OCC"], "MM-dd-yyyy").cast(DateType()))
 #df.withColumn("DATE OCC",col("DATE OCC").cast(DateType()))
-df_2020_to_present.withColumn("Vict Age",col("Vict Age").cast(IntegerType()))
-df_2020_to_present.withColumn("LAT",col("LAT").cast(DoubleType()))
-df_2020_to_present.withColumn("LON",col("LON").cast(DoubleType()))
-
+df_2020_to_present =df_2020_to_present.withColumn("Vict Age",col("Vict Age").cast(IntegerType()))
+df_2020_to_present =df_2020_to_present.withColumn("LAT",col("LAT").cast(DoubleType()))
+df_2020_to_present =df_2020_to_present.withColumn("LON",col("LON").cast(DoubleType()))
 #This is the dataframe that combines the other two dataframes
 df = df_2010_to_2019.union(df_2020_to_present)
 
