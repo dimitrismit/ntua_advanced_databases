@@ -15,8 +15,8 @@ import os
 #    ├── query2
 #    ├── query3
 #    └── query4
+
 results_dir = '/path/to/original/results/folder'
-results_comma_directory = '/path/to/updated/results/folder'
 old_folder = '/old_folder_name'
 new_folder = '/new_folder_name'
 
@@ -31,7 +31,7 @@ folders_list = [
 for folder in folders_list:
 	for subdir, dirs, files in os.walk(results_dir+folder):
 		for file in files:
-			if file.endswith('.csv'):
+			if file.endswith('results.csv'):
 				input_file_path = os.path.join(subdir, file)
 				output_file_path = os.path.join(subdir.replace(old_folder, new_folder), file)
 				#print("output_file_path is:" ,output_file_path)
