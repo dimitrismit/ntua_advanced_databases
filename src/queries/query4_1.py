@@ -61,6 +61,11 @@ crime_df = crime_df.withColumn("DATE OCC", to_timestamp("DATE OCC", "MM/dd/yyyy 
 #where the weapon was a firearm
 crimes_with_firearms = crime_df.filter(col("Weapon Used Cd").startswith("1"))
 
+'''
+Note: There is a difference in how the two datasets refer to some divisions
+This is why these division names were manually changed to match so that data 
+would not be lost during the join operation
+'''
 crimes_with_firearms= crimes_with_firearms.withColumnRenamed('AREA NAME', 'DIVISION')
 crimes_with_firearms = crimes_with_firearms.withColumn(
         "DIVISION",
