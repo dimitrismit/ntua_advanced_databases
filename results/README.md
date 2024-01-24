@@ -1,6 +1,6 @@
 # Advanced Topics in Database Systems --Results--
 
-This folder contains two folders. The one named "original_results" contains the result files unchanged. That means that all the query@_results.csv will have "|" as a separator, while the query@_timers.csv files will have "," as a separator. The other folder, named "comma_separated_results" contains the same amount of files with the same data, but now all the files will have "," as a separator.
+This folder contains two folders. The one named "original_results" contains the result files unchanged. That means that all the query@_results.csv will have "|" as a separator, while the query@_timers.csv files will have "," as a separator. The other folder, named "comma_separated" contains the same amount of files with the same data, but now all the files will have "," as a separator.
 
 Both folders contain the results as computed by the queries. Each successive folder contains the answer to the respective query in csv format, as well as the plots for the first three queries. The folder named hint_and_explain contains three folders, one for each mode of explain(). 
 
