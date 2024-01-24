@@ -54,6 +54,7 @@ In the assignment, there is a question that requires to use of join operations u
 > output to a file, as it is done in the "run_hint_and_analyze.sh".
 
 > [!NOTE]
-> The output file of the query results uses "|" as separator, while timers uses "," as separator. If you want to change the separator for the results file, you can use change_separator.py inside
-> the helper-code folder. For this to work you need to create a different folder, where you paste all four folders from the results folder.
-> Therefore, when the change_separator.py finishes, there will be the original folder with the results (where some csv files will have | delimiter) and another folder, where "," will be the separator for all csv files.
+> Query result files use "|" as separator, while timers results files use "," as separator. This is done for a practical reason and it has to do
+> with saving files in the HDFS. If you want to change the separator for the results file, you can use change_separator.py inside
+> the helper-code folder. For this to work you need to create a different folder, where you copy and paste all four folders from the results
+> folder. Therefore, when the change_separator.py finishes, there will be the original folder with the results (where some csv files will have "|" delimiter) and another folder, where "," will be the separator for all csv files.
