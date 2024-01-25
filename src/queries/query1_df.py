@@ -45,9 +45,6 @@ crime_df = (spark.read
 read_data_time = time.time() - (timer+create_spark_time)
 timers_list[0][1] = (read_data_time)
 
-#parse the "Date OCC" column to timestamp
-crime_df = crime_df.withColumn("Date", to_timestamp("DATE OCC", "MM/dd/yyyy hh:mm:ss a"))
-
 #extract year and month from the timestamp
 crime_df = crime_df.withColumn("Year", year("Date")).withColumn("Month", month("Date"))
 
@@ -57,6 +54,7 @@ result = (crime_df.groupBy("Year", "Month")
           .orderBy("Year", "CrimeCount", ascending=[True, False]))
 
 #rank the months within each year based on the crime count
+#and keep the top 3 for each year
 result = result.withColumn("Rank", dense_rank().over(Window.partitionBy("Year").orderBy(desc("CrimeCount"))))
 result = result.filter(F.col("Rank") <= 3)
 
