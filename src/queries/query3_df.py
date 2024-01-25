@@ -71,9 +71,6 @@ timers_list[0][1] = (read_data_time)
 # Filter out rows where "Vict Descent" is not empty in the crime_data csv
 crime_df = crime_df.filter(crime_df["Vict Descent"].isNotNull())
 
-# Convert "DATE OCC" to a timestamp type
-crime_df = crime_df.withColumn("DATE OCC", to_timestamp("DATE OCC", "MM/dd/yyyy hh:mm:ss a"))
-
 # Filter data for the year 2015
 crime_2015_df = crime_df.filter(year("DATE OCC") == 2015)
 
