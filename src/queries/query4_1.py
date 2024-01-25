@@ -96,18 +96,6 @@ else:
 
 joined_df = joined_df.withColumn("distance", get_distance('LAT', 'LON', 'Y', 'X'))
 
-#joined_df.show(2, truncate=False)
-
-# Set a threshold for distance (adjust as needed)
-distance_threshold = 50.0  # for example, 10 kilometers
-
-# Identify rows with distance exceeding the threshold
-big_distance_rows = joined_df.filter(col("distance") > distance_threshold)
-
-# Print the entire row or relevant information
-print("Rows with big distances:")
-#big_distance_rows.show(truncate=False)
-
 # Find nearest police department for each crime and keep that
 nearest_place_df = joined_df.groupBy("DR_NO").agg(
     F.min("distance").alias("min_distance"),
