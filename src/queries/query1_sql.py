@@ -53,10 +53,10 @@ result = spark.sql("""
         Rank
     FROM (
         SELECT
-            YEAR(to_timestamp(`DATE OCC`, 'MM/dd/yyyy hh:mm:ss a')) as Year,
-            MONTH(to_timestamp(`DATE OCC`, 'MM/dd/yyyy hh:mm:ss a')) as Month,
+            YEAR(`DATE OCC`) as Year,
+            MONTH(`DATE OCC`) as Month,
             COUNT(*) as CrimeCount,
-            DENSE_RANK() OVER (PARTITION BY YEAR(to_timestamp(`DATE OCC`, 'MM/dd/yyyy hh:mm:ss a')) ORDER BY COUNT(*) DESC) as Rank
+            DENSE_RANK() OVER (PARTITION BY YEAR(`DATE OCC`) ORDER BY COUNT(*) DESC) as Rank
         FROM crime_table
         GROUP BY Year, Month
     ) ranked
