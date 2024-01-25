@@ -54,9 +54,6 @@ crime_df = (spark.read
 #filter out rows where LAT or LON is equal to 0
 crime_df = crime_df.filter((col("LAT") != 0) & (col("LON") != 0))
 
-#convert "DATE OCC" to a timestamp type
-crime_df = crime_df.withColumn("DATE OCC", to_timestamp("DATE OCC", "MM/dd/yyyy hh:mm:ss a"))
-
 #count crimes where "Weapon Used Cd" starts with 1, in order to keep crimes
 #where the weapon was a firearm
 crimes_with_firearms = crime_df.filter(col("Weapon Used Cd").startswith("1"))
