@@ -1,4 +1,5 @@
-hadoop fs -rm -r /results/*
+##Uncomment the following command in case the /results folder in your HDFS contains any previous results
+#hadoop fs -rm -r /results/*
 
 #Do 5 iterations for more accurate results
 for i in {1..5}
@@ -39,7 +40,7 @@ spark-submit query4_2.py 4 SHUFFLE_HASH > /home/user/opt/results/query4_2_shuffl
 spark-submit query4_2.py 4 SHUFFLE_REPLICATE_NL > /home/user/opt/results/query4_2_shuffle_replicate_nl.out
 comment
 
-
+#The following command copies the result files from the HDFS to local machine
 hadoop fs -copyToLocal /results/* /home/user/opt/results/
 python3 ../helper-code/plot.py
 
@@ -48,8 +49,9 @@ python3 ../helper-code/plot.py
 
 directory="/home/user/opt/results"
 
-#Save the query results to their respective file. Schema is as follows
-# results
+#Save the query results from the /results folder to the designated query folder. 
+#The folder structure is as follows:
+# /results
 #├── hint_and_eplain
 #├── query1
 #├── query2
