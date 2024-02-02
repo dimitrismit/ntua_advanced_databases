@@ -103,10 +103,10 @@ ranked_df = joined_df.withColumn("rank", F.row_number().over(window_spec))
 nearest_place_df = ranked_df.filter("rank = 1").select("DR_NO", "DIVISION", "distance")
 
 if hint_type != 'None' and mode != 'None':
-      result_df = joined_df.join(nearest_place_df.hint(hint_type), "DR_NO", "left")
+      result_df = crimes_with_firearms.join(nearest_place_df.hint(hint_type), "DR_NO", "left")
       result_df.explain(mode = mode)
 else:
-      result_df = joined_df.join(nearest_place_df, "DR_NO", "left")
+      result_df = crimes_with_firearms.join(nearest_place_df, "DR_NO", "left")
 
 #Group by 'year' and calculate the mean distance and count of rows
 avg_per_year_df = result_df.groupBy(year("DATE OCC").alias("year")).agg(
