@@ -103,10 +103,10 @@ nearest_place_df = joined_df.groupBy("DR_NO").agg(
 )
 
 if hint_type != 'None' and mode != 'None':
-    result_df = crimes_with_firearms.join(nearest_place_df.hint(hint_type), "DR_NO", "left")
+    result_df = joined_df.join(nearest_place_df.hint(hint_type), "DR_NO", "left")
     result_df.explain(mode = mode)
 else:
-    result_df = crimes_with_firearms.join(nearest_place_df, "DR_NO", "left")
+    result_df = joined_df.join(nearest_place_df, "DR_NO", "left")
 
 #result_df.select("min_distance").describe().show()
 
