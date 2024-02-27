@@ -46,7 +46,7 @@ read_data_time = time.time() - (timer+create_spark_time)
 timers_list[0][1] = (read_data_time)
 
 #extract year and month from the timestamp
-crime_df = crime_df.withColumn("Year", year("Date")).withColumn("Month", month("Date"))
+crime_df = crime_df.withColumn("Year", year("DATE OCC")).withColumn("Month", month("DATE OCC"))
 
 #group by year and month, then count the crimes, and order by count in descending order
 result = (crime_df.groupBy("Year", "Month")
